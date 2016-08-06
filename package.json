@@ -1,0 +1,25 @@
+{
+  "name": "horizon-app-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DdZ-Fred/horizon-app-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DdZ-Fred/horizon-app-2/issues"
+  },
+  "homepage": "https://github.com/DdZ-Fred/horizon-app-2#readme",
+  "devDependencies": {
+    "eslint": "^3.2.2",
+    "eslint-config-airbnb-base": "^5.0.1",
+    "eslint-plugin-import": "^1.12.0"
+  }
+}
