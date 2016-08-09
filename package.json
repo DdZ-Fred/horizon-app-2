@@ -4,7 +4,8 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "build:watch": "nodemon --watch ./ --ignore ./dist --exec webpack"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Horizon from '@horizon/client';
 
 const childContextTypes = {
-  hzPosts: PropTypes.object,
+  hz: PropTypes.func,
 };
 
 class App extends React.Component {
@@ -15,7 +15,7 @@ class App extends React.Component {
 
   getChildContext() {
     return {
-      hzPosts: this.horizon('posts'),
+      hz: this.horizon,
     };
   }
 

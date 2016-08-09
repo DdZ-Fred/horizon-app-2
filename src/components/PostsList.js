@@ -2,15 +2,13 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
 import { updatePosts, addPost } from '../actions';
+import PostsListHoc from '../hoc/PostsListHoc';
+import Post from './Post';
 
 const propTypes = {
   posts: PropTypes.array.isRequired,
   updatePosts: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-};
-
-const contextTypes = {
-  hzPosts: PropTypes.object,
 };
 
 class PostsList extends React.Component {
@@ -19,11 +17,27 @@ class PostsList extends React.Component {
     super(props);
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
   }
 
   componentWillMount() {
-    this.context.hzPosts.watch().subscribe(
+    this.props.hzPosts.watch().subscribe(
       postsList => this.props.updatePosts(postsList)
+    );
+  }
+
+  onSubmit(post) {
+    console.log(post);
+    this.props.hzPosts.store(post).subscribe(
+      (postId) => console.log(`New post with id ${postId} added!`)
+    );
+  }
+
+  handleDeletePost(id) {
+    console.log(`DELETE POST: ${id}`);
+    this.props.hzPosts.remove(id).subscribe(
+      (id) => console.log('Post deleted successfully!'),
+      (error) => console.log('Post deletion error', error)
     );
   }
 
@@ -32,18 +46,9 @@ class PostsList extends React.Component {
       return <li>No posts yet</li>;
     }
 
-    return this.props.posts.map((post, idx) => (
-      <li key={idx} className="list-group-item">
-        {`${post.title}: ${post.body}`}
-      </li>
+    return this.props.posts.map((post) => (
+      <Post key={post.id} post={post} deletePost={this.handleDeletePost}/>
     ));
-  }
-
-  onSubmit(post) {
-    console.log(post);
-    this.context.hzPosts.store(post).subscribe(
-      (postId) => console.log(`New post with id ${postId} added!`)
-    );
   }
 
   render() {
@@ -77,7 +82,6 @@ class PostsList extends React.Component {
   }
 }
 PostsList.propTypes = propTypes;
-PostsList.contextTypes = contextTypes;
 
 function mapStateToProps(state) {
   return {
@@ -93,4 +97,4 @@ function mapDispatchToProps(dispatch) {
 export default reduxForm({
   form: 'addPost',
   fields: ['title', 'body'],
-}, mapStateToProps, mapDispatchToProps)(PostsList);
+}, mapStateToProps, mapDispatchToProps)(PostsListHoc(PostsList));
